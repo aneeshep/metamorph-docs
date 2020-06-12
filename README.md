@@ -2,22 +2,22 @@
 
 Docs for MetaMorph
 
-BUILD
-docker build -t aneeshep/metamorph-docs .
+##BUILD
+`docker build -t aneeshep/metamorph-docs .`
 
 
-RUN
+##RUN
 
 `docker run  -v ${PWD}:/opt/metamorph -it -p 8089:8000 aneeshep/metamorph-docs`
 
 
 
-USAGE
+##USAGE
 
 open your brower and point to `http://localhost:8089` to see the docs
 
 
-EDITING
+##EDITING
 
 
 Open your favourite editor and change the md files inside docs directory, make the changes
