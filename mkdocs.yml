@@ -1,0 +1,11 @@
+site_name: MetaMorph
+theme: readthedocs
+nav:
+  - Home: index.md
+  - QuickStart             : quickstat.md
+  - installation           : installation.md
+  - Architecture           : architecture.md
+  - Usage Guide            : usageGuide.md
+  - References             : references.md
+  - Logging and Debugging  : logging_debugging.md
+

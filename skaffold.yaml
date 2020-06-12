@@ -1,0 +1,23 @@
+apiVersion: skaffold/v1
+kind: Config
+metadata:
+  name: metamorph
+build:
+  artifacts:
+  - image: aneeshep/metamorph-docs
+    context: .
+    sync:
+        manual:
+          - src: 'docs/*.md'
+            dest: /opt/metamorph
+    docker:
+      dockerfile: Dockerfile
+      cacheFrom:
+      - aneeshep/metamorph-docs
+      noCache: false
+
+deploy:
+  kubectl:
+    manifests:
+    - deployment.yaml
+    - service.yaml
