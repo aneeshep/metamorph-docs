@@ -872,17 +872,15 @@ Certificate.yaml and Genesis.sh Generation
 <pre><code>
 $ chmod 777 -R nyc_collected
 $ ./promenade/tools/simple-deployment.sh nyc_collected/ nyc_bundle
-</code></pre>
-
-After the nyc_bundle has been successfully created, simple-deployment.sh will generate a decryption key for use during genesis.sh script execution.
-
-Example Key from the output of above command:
-<pre><code>
-Copy this decryption key for use during script execution:
-Ba93fd04aa3e2f553858bd5e9f795c1bba7e6ac814e73602624c2abce3b423af2a154a1af93298456cf83e15c49681e4
-
 $ export PROMENADE_ENCRYPTION_KEY=Ba93fd04aa3e2f553858bd5e9f795c1bba7e6ac814e73602624c2abce3b423af2a154a1af93298456cf83e15c49681e4
 </code></pre>
+
+##### Note:
+After the nyc_bundle has been successfully created, simple-deployment.sh will generate a decryption key for use during genesis.sh script execution. Copy this decryption key for use during script execution.
+
+Example Key: Ba93fd04aa3e2f553858bd5e9f795c1bba7e6ac814e73602624c2abce3b423af2a154a1af93298456cf83e15c49681e4
+
+
 
 
 Run genesis.sh
