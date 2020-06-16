@@ -11,6 +11,7 @@ $ apparmor_parser calico-node-v1
 </code></pre>
 
 
+content of `calico-node-v1` profile.
 <pre><code>
 profile calico-node-v1 flags=(attach_disconnected,mediate_deleted) {
 
@@ -902,7 +903,7 @@ Check `nohup.out` in the current directory for logs.
 
 ### mcafee pods:
 
-If mcaffee pods are failing with the error `Error: /usr/bin/ksh is missing`
+If mcafee pods are failing with the error `Error: /usr/bin/ksh is missing`
 
 run below command fix it.
 
