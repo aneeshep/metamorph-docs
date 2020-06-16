@@ -71,6 +71,7 @@ $ nohup ./genesis.sh &
 Check `nohup.out` in the current directory for logs.
 
 
+
 Troubleshooting steps:
 
 Create an apparmor profile if the profile is not exists.
