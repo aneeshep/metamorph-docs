@@ -10,7 +10,7 @@ $ cd /etc/apparmor.d
 $ apparmor_parser calico-node-v1
 </code></pre>
 
-`
+
 profile calico-node-v1 flags=(attach_disconnected,mediate_deleted) {
 
   network,
@@ -40,7 +40,8 @@ profile calico-node-v1 flags=(attach_disconnected,mediate_deleted) {
   ptrace (trace,read) peer=calico-node-v1,
 
 }
-`
+
+
 
 
 
@@ -51,6 +52,7 @@ create a `seccomp_default` file with below content.
 </code></pre>
 
 
+<pre><code>
 
 `{
     "defaultAction": "SCMP_ACT_ERRNO",
@@ -819,6 +821,7 @@ create a `seccomp_default` file with below content.
         }
     ]
 }`
+</code></pre>
 
 
 
