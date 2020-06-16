@@ -69,3 +69,19 @@ $ nohup ./genesis.sh &
 </code></pre>
 
 Check `nohup.out` in the current directory for logs.
+
+
+Troubleshooting steps:
+
+Create an apparmor profile if the profile is not exists.
+<pre><code>
+$ cd /etc/apparmor.d
+$ apparmor_parser calico-node-v1
+$ /etc/init.d/apparmor restart
+</code></pre>
+
+Create a seccomp profile
+<pre><code>
+$ cd /var/lib/kubelet/seccomp/
+create a seccomp_default file with content of https://raw.githubusercontent.com/moby/moby/master/profiles/seccomp/default.json
+</code></pre>
