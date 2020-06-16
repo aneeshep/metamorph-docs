@@ -858,7 +858,11 @@ $ nohup ./genesis.sh &
 Check `nohup.out` in the current directory for logs.
 
 
-Troubleshooting steps:
+
+***************
+Troubleshooting
+***************
+
 
 mcaffee pods:
 
