@@ -19,9 +19,7 @@ create a `seccomp_default` file with below content.
 
 
 
-`
-
-{
+`{
     "defaultAction": "SCMP_ACT_ERRNO",
     "archMap": [
         {
@@ -787,9 +785,7 @@ create a `seccomp_default` file with below content.
             "excludes": {}
         }
     ]
-}
-
-`
+}`
 
 
 
@@ -861,3 +857,13 @@ $ nohup ./genesis.sh &
 
 Check `nohup.out` in the current directory for logs.
 
+
+Troubleshooting steps:
+
+mcaffee pods:
+
+If mcaffee pods are failing with the error `Error: /usr/bin/ksh is missing`
+
+run below command fix it.
+
+`$ ln -s /bin/ksh /usr/bin/ksh`
