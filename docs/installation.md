@@ -859,9 +859,8 @@ Check `nohup.out` in the current directory for logs.
 
 
 
-***************
-Troubleshooting
-***************
+
+* Troubleshooting
 
 
 mcaffee pods:
