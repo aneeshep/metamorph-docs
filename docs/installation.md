@@ -860,10 +860,10 @@ Check `nohup.out` in the current directory for logs.
 
 
 
-* Troubleshooting
+## Troubleshooting
 
 
-mcaffee pods:
+### mcaffee pods:
 
 If mcaffee pods are failing with the error `Error: /usr/bin/ksh is missing`
 
