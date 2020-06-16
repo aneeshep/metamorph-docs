@@ -2,7 +2,7 @@
 <mark>*This Page need to be updated. Work in Progress*</mark>
 
 
-Prerequisites:
+## Prerequisites:
 
 Create an apparmor profile.
 <pre><code>
@@ -879,7 +879,6 @@ $ export PROMENADE_ENCRYPTION_KEY=Ba93fd04aa3e2f553858bd5e9f795c1bba7e6ac814e736
 After the nyc_bundle has been successfully created, simple-deployment.sh will generate a decryption key for use during genesis.sh script execution. Copy this decryption key for use during script execution.
 
 Example Key: Ba93fd04aa3e2f553858bd5e9f795c1bba7e6ac814e73602624c2abce3b423af2a154a1af93298456cf83e15c49681e4
-
 
 
 
