@@ -83,5 +83,5 @@ $ /etc/init.d/apparmor restart
 Create a seccomp profile
 <pre><code>
 $ cd /var/lib/kubelet/seccomp/
-create a seccomp_default file with content of https://raw.githubusercontent.com/moby/moby/master/profiles/seccomp/default.json
+create a `seccomp_default` file with content of https://raw.githubusercontent.com/moby/moby/master/profiles/seccomp/default.json
 </code></pre>
