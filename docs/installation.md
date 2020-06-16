@@ -10,7 +10,8 @@ $ cd /etc/apparmor.d
 $ apparmor_parser calico-node-v1
 </code></pre>
 
-`profile calico-node-v1 flags=(attach_disconnected,mediate_deleted) {
+`
+profile calico-node-v1 flags=(attach_disconnected,mediate_deleted) {
 
   network,
   capability,
@@ -38,7 +39,8 @@ $ apparmor_parser calico-node-v1
 
   ptrace (trace,read) peer=calico-node-v1,
 
-}`
+}
+`
 
 
 
