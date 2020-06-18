@@ -14,13 +14,13 @@ First step is to create a site/node manifest(s) . An example directory of a site
 		|       |   |-- kustomization.yaml
 		|       |   |-- network_config.yaml
 		|       |   |-- userData.yaml
-		|       |    -- userDataConfig
+		|       |    -- userDataConfig.yaml
 		|       -- node2
 		|           |-- bmh.yaml
 		|           |-- kustomization.yaml
 		|			|-- network_config.yaml
 		|           |-- userData.yaml
-		|            -- userDataConfig
+		|            -- userDataConfig.yaml
 		-- types
 		    -- vvig
 		        -- userDataSecret.yaml
@@ -49,7 +49,8 @@ node1         OK       provisioning                     redfish://32.xx.xx.121/r
 To delete the node
 
 <pre><code>
-kubectl -n metal3 delete bmh node1
+cd sites/vvig/node1
+kustomize build --enable_alpha_plugins . | kubectl delete -f -
 </code></pre>
 
 *Note: Delete action will not wipe the OS/VirtualDisk on the target node.*

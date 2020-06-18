@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: metamorph-docs
+  labels:
+    chart: "metamorph-v0.1.0"
+spec:
+  type: NodePort
+  ports:
+  - port: 8000
+    targetPort: 8000
+    nodePort: 32764
+    protocol: TCP
+    name: metamorph
+  selector:
+    app: metamorph-docs

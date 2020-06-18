@@ -18,7 +18,6 @@ The common configs for all the nodes are kept at `types/<site_type>/userDataSecr
 	RAIDFirmwareVersion: 4.5.6
 	FirmwareVersion: 32.32.32
 	grubConfig: "image=bionic isolcpus=0-3,44-47 amd_iommu=on kernel_package=linux-image-5.0.0-23-generic kernel=hwe-18.04 hugepagesz=1G hugepages=160 intel_iommu=on console=ttyS1,115200n8 transparent_hugepage=never"
-
 	Partitions:
 	  - partitionName: root
 	    size: 30g
@@ -180,10 +179,10 @@ Same Priority tasks will be executed in parelell. See the above example for more
 		      link: bond0
 		      dhcp4: no
 		      mtu: 9214
-		      addresses: [32.68.220.14/26, ]
-		      gateway4: 32.68.220.1
+		      addresses: [32.xx.xx.14/26, ]
+		      gateway4: 32.xx.xx.1
 		      nameservers:
-		        addresses: [150.234.210.5, 150.234.210.205, 135.188.34.124, ]
+		        addresses: [150.xx.xx.5, 150.xx.xx.205, 135.xx.xx.124, ]
 
 
 Network config file is a plain netplan file that is responsible for configuring the network in the target node.   
@@ -197,7 +196,7 @@ See [https://netplan.io](https://netplan.io) for more details
 		kind: Kustomization
 		namespace: metal3
 
-		namePrefix: node1-
+
 		generatorOptions:
 		  disableNameSuffixHash: true
 
@@ -205,13 +204,14 @@ See [https://netplan.io](https://netplan.io) for more details
 		- bmh.yaml
 
 		secretGenerator:
-		- name: secret
+		- name: node1-secret
 		  literals:
 		  - username=<username>
 		  - password=<password>
 
 		generators:
-		- userData.yaml
+		- userDataConfig.yaml
+
 
 
 
@@ -227,7 +227,7 @@ kustomization.yaml is the main file that puts all other files togehter. When exe
 		metadata:
 		  labels:
 		    metalkubedemo:
-		  name: bmh
+		  name: node1
 		  namespace: metal3
 		spec:
 		  bmc:
@@ -245,28 +245,35 @@ kustomization.yaml is the main file that puts all other files togehter. When exe
 This file holds the config of the baremetal nodes , like the IPMI ip, username , password and the iso images etc
 
 
+## userDataConfig.yaml
+`location` : `sites/vvig/node1/userDataConfig.yaml`
+
+
+		apiVersion: metamorph.io/v1
+		kind: UserData
+		metadata:
+		  name: node1-user-data
+		namespace: metal3
+		network_config:  network_config.yaml
+		resources:
+		- ../../../types/vvig/userDataSecret.yaml
+		- userData.yaml
+
+
+
+Most of the case, you don't have to change this file. This file tells metamorph to take all the files in `userData.yaml` file and merge it together while creating the kuberentes manifests
+
+
 ## userData.yaml
 `location` : `sites/vvig/node1/userData.yaml`
 
-
-		apiVersion: MetaMorph
-		kind: MetaMorphUserDataGenerator
-		metadata:
-		  name: metamorphuserdata
-		ArgsFromFile: userDataConfig
+		---
+		RAID_reset: false
+		vendor: Dell
 
 
-Most of the case, you don't have to change this file. This file tells metamorph to take all the files in `userDataConfig` file and merge it together while creating the kuberentes manifests
 
-
-## userDataConfig
-`location` : `sites/vvig/node1/userDataConfig`
-
-		../../../types/vvig/userDataSecret.yaml
-		network_config.yaml
-
-
-Most of the case, you don't have to change this file. this file tell the metamorph to take the `network_config.yaml` and merge it to the site type level user data. 
+Most of the case, you don't have to change this file. this file tell the metamorph to override the values in the `types/<site_type>/userDataSecret.yaml`
 
 
 

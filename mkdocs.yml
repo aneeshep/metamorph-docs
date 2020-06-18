@@ -2,7 +2,7 @@ site_name: MetaMorph
 theme: readthedocs
 nav:
   - Home: index.md
-  - QuickStart             : quickstat.md
+  - QuickStart             : quickstart.md
   - installation           : installation.md
   - Architecture           : architecture.md
   - Usage Guide            : usageGuide.md
