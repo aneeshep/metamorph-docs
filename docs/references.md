@@ -1,4 +1,264 @@
-#References
+# References
+- [References](#references)
+	- [config.yaml](#configyaml)
+		- [Config file field description](#config-file-field-description)
+	- [userDataSecret.yaml](#userdatasecretyaml)
+		- [Manifest Field Descriptions](#manifest-field-descriptions)
+	- [network_config.yaml](#network_configyaml)
+	- [kustomization.yaml](#kustomizationyaml)
+	- [bmh.yaml](#bmhyaml)
+	- [userDataConfig.yaml](#userdataconfigyaml)
+	- [userData.yaml](#userdatayaml)
+	- [Virtual Disk](#virtual-disk)
+	- [Boot Action](#boot-action)
+	- [Plugins](#plugins)
+## config.yaml
+
+This file contains configuration for standalone Metamorph. For running Metamorph executable, env variable *`METAMORPH_CONFIGPATH`*  should point to the location of this file.
+
+	---
+	database:
+	    type: sqlite
+	    path: "/tmp/db/metamorph.db"
+	
+	
+	controller:
+	    port : 8080
+	
+	logger:
+	    apipath: /tmp/metamorph_api.log
+	    controllerpath: /tmp/metamorph_controller.log
+	    plugins:
+	      redfishpluginpath: /tmp/redfish-plugin.log
+	      isogenpluginpath: /tmp/isogen-plugin.log
+	
+	templates:
+	    rootdir: /root/go/src/github.com/xyz/MetaMorph
+	    preseed:
+	        config:  configs/templates/preseed.tmpl
+	        filepath: preseed/hwe-ubuntu-server.seed
+	    grub:
+	        config:  configs/templates/grub.tmpl
+	        filepath: grub.conf
+	    isolinux:
+	        config: configs/templates/hwe_kernel/isolinux_txt.cfg
+	    init:
+	        config: configs/templates/init.sh
+	        filepath: init.sh
+	    service:
+	        config: configs/templates/metamorph-client.service
+	        filepath: metamorph-client.service
+	    netplan:
+	        config: configs/templates/netplan.tmpl
+	        filepath: 50-cloud-init.yaml
+	    agent_config:
+	        config:  configs/templates/agent_config.tmpl
+	        filepath: agent_config.yaml
+	
+	assets:
+	   rootdir: /root/go/src/github.com/xyz/MetaMorph/assets
+	   agent_binary:
+	          src:  files/metamorph_agent
+	          dest: metamorph_agent
+	
+	iso:
+	  rootpath: /tmp/iso_root
+	  tempdir: /tmp/iso_root/isos
+	
+	
+	http:
+	  rootpath: /tmp/http_root
+	
+	provisioning:
+	    ip : "32.xx.xx.13"
+	    port:  3190
+	    httpport: 31180
+	
+	
+	pluginlocation: "/root/go/src/github.com/xyz/MetaMorph/assets/files"
+	
+	testing:
+	    inputfile: "/root/go/src/github.com/xyz/MetaMorph/examples/node1_input.json"
+	
+	agent:
+	    node_id: "e415bbbe-be68-4705-aa05-16350e0c8151"
+	    cntrl_endpoint: "localhost:4040"
+	    logdir : "/tmp/metamorph"
+	    temp_dir : "/tmp/metamorph/.tmp"
+	
+	plugins:
+	    UpdateFirmware: "metamorph-redfish-plugin"
+	    ConfigureRAID: "metamorph-redfish-plugin"
+	    DeployISO: "metamorph-redfish-plugin"
+	    GetGUUID: "metamorph-redfish-plugin"
+	    CreateISO: "metamorph-isogen-plugin"
+	    GetHWInventory: "metamorph-redfish-plugin"
+	    PowerOff: "metamorph-redfish-plugin"
+	    PowerOn: "metamorph-redfish-plugin"
+	    GetPowerStatus: "metamorph-redfish-plugin"
+
+
+### Config file field description
+
+	database:
+	    type: sqlite
+	    path: "/tmp/db/metamorph.db"
+	
+	    path: "/tmp/db/metamorph.db"
+	
+
+`database.path` *string*  *\*required*
+
+database.path is the location of the sqlite db file storage path.
+
+	controller:
+	    port : 8080
+
+
+
+
+`controller.port` *integer*  *\*required*
+
+controller.port is the Metamorph API Endpoint Port
+	
+	logger:
+	    apipath: /tmp/metamorph_api.log
+	    controllerpath: /tmp/metamorph_controller.log
+	    plugins:
+	      redfishpluginpath: /tmp/redfish-plugin.log
+	      isogenpluginpath: /tmp/isogen-plugin.log
+
+`logger.apipath` *string* *\*required*
+
+log file path for Metamorph API Server
+
+`logger.controllerpath` *string* *\*required*
+
+log file path for Metamorph Controller Server
+
+`logger.plugins.redfishpluginpath` *string* *\*required*
+
+log file path for Metamorph Redfish Plugin 
+
+`logger.plugins.isogenpluginpath` *string* *\*required*
+
+log file path for Metamorph ISOGen Plugin 
+
+	
+	templates:
+	    rootdir: /root/go/src/github.com/xyz/MetaMorph
+	    preseed:
+	        config:  configs/templates/preseed.tmpl
+	        filepath: preseed/hwe-ubuntu-server.seed
+	    grub:
+	        config:  configs/templates/grub.tmpl
+	        filepath: grub.conf
+	    isolinux:
+	        config: configs/templates/hwe_kernel/isolinux_txt.cfg
+	    init:
+	        config: configs/templates/init.sh
+	        filepath: init.sh
+	    service:
+	        config: configs/templates/metamorph-client.service
+	        filepath: metamorph-client.service
+	    netplan:
+	        config: configs/templates/netplan.tmpl
+	        filepath: 50-cloud-init.yaml
+	    agent_config:
+	        config:  configs/templates/agent_config.tmpl
+	        filepath: agent_config.yaml
+	
+
+`templates.rootdir` *string* *\*required*
+
+Absolute path of the location storing all template files.
+
+Example:
+
+`templates.agent_config.config` specifies the location of agent config template file under the root directory.
+
+`templates.agent_config.filepath` specifies the final location of the generated file w.r.t iso root directory.
+
+	assets:
+	   rootdir: /root/go/src/github.com/xyz/MetaMorph/assets
+	   agent_binary:
+	          src:  files/metamorph_agent
+	          dest: metamorph_agent
+	
+`assets.rootdir` *string* *\*required*
+
+Root directory for assets executables.
+
+`assets.agent_binary` *string*  *\*required* 
+
+Details of the binary file source and destination.
+
+	iso:
+	  rootpath: /tmp/iso_root
+	  tempdir: /tmp/iso_root/isos
+	
+`iso.rootpath` *string* *\*required*
+
+Root path of ISO related files.
+
+`iso.rootpath.tempdir` *string* *\*required*
+
+Location for storing vanilla ISO file retreived from Server.
+	
+	http:
+	  rootpath: /tmp/http_root
+
+`http.rootpath` *string* *\*required*
+
+Folder location to serve the final repackaged ISO file.
+	
+	provisioning:
+	    ip : "32.xx.xx.13"
+	    port:  3190
+	    httpport: 31180
+
+`provisioning.ip` *string* *\*required*
+`provisioning.port` *int* *\*required*
+`provisioning.httpport` *int* *\*required*
+
+Provisioning server information.	
+	
+	pluginlocation: "/root/go/src/github.com/xyz/MetaMorph/assets/files"
+
+`pluginlocation` *string*  *\*required*
+
+Location for placing plugin executables.
+	
+	testing:
+	    inputfile: "/root/go/src/github.com/xyz/MetaMorph/examples/node1_input.json"
+
+`testing.inputfile` *string*  *\*required* 
+
+Input file in form of JSON for testing purpose
+	
+	agent:
+	    node_id: "e415bbbe-be68-4705-aa05-16350e0c8151"
+	    cntrl_endpoint: "localhost:4040"
+	    logdir : "/tmp/metamorph"
+	    temp_dir : "/tmp/metamorph/.tmp"
+
+`agent.node_is` contains information about Metamorph agent details.
+	
+	plugins:
+	    UpdateFirmware: "metamorph-redfish-plugin"
+	    ConfigureRAID: "metamorph-redfish-plugin"
+	    DeployISO: "metamorph-redfish-plugin"
+	    GetGUUID: "metamorph-redfish-plugin"
+	    CreateISO: "metamorph-isogen-plugin"
+	    GetHWInventory: "metamorph-redfish-plugin"
+	    PowerOff: "metamorph-redfish-plugin"
+	    PowerOn: "metamorph-redfish-plugin"
+	    GetPowerStatus: "metamorph-redfish-plugin"
+`plugins` contains the mapping of API vis a vis the plugin executable
+
+Example
+
+`plugins.UpdateFirmware` is set to `metamorph-redfish-plugin` which is the executable implementing the said API.
 
 ## userDataSecret.yaml
 
@@ -71,13 +331,14 @@ The common configs for all the nodes are kept at `types/<site_type>/userDataSecr
 	  control: bash
 	  name: Deploy Sec tools
 	  priority: 10
+    Plugins: 
+          APIs: 
+             - Name: "DeployISO"
+               Plugin: "metamorph-redfish-plugin" 
+			 - Name: "CreateISO"
+               Plugin: "metamorph-isogen-plugin" 
 
-
-
-
-
-
-#### Manifest Field Descriptions
+### Manifest Field Descriptions
 
 
 * `RAID_reset` *bool*  *\*required*
@@ -349,5 +610,21 @@ Name of the BootAction.
 Priority of the task. Pririties can be any number ranging from 1 - 1000 Lowest number will have higher priroty. Same Priority tasks will be executed in parelell. 
 
 
+## Plugins
+This section list the APIs that needs to be overridden.
 
 
+  	 Plugins: 
+          APIs: 
+             - Name: "DeployISO"
+               Plugin: "metamorph-redfish-plugin" 
+			 - Name: "CreateISO"
+               Plugin: "metamorph-isogen-plugin" 
+
+*`Name`* *string* 
+
+The name of the API which needs to be overridden. The Metamorph configuration files define a set of out of  box APIs via a vis plugin modules.
+
+*`Plugin`* *string*
+
+The name of the associated plugin. This could a new plugin which supports the associated API.
