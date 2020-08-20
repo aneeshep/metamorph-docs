@@ -1,11 +1,9 @@
-site_name: MetaMorph
+site_name: MetaMorph Standalone
 theme: readthedocs
 nav:
   - Home: index.md
   - QuickStart             : quickstart.md
   - installation           : installation.md
   - Architecture           : architecture.md
-  - Usage Guide            : usageGuide.md
   - References             : references.md
-  - Logging and Debugging  : logging_debugging.md
 

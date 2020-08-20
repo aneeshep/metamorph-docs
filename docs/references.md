@@ -2,13 +2,9 @@
 - [References](#references)
 	- [config.yaml](#configyaml)
 		- [Config file field description](#config-file-field-description)
-	- [userDataSecret.yaml](#userdatasecretyaml)
-		- [Manifest Field Descriptions](#manifest-field-descriptions)
-	- [network_config.yaml](#network_configyaml)
-	- [kustomization.yaml](#kustomizationyaml)
-	- [bmh.yaml](#bmhyaml)
-	- [userDataConfig.yaml](#userdataconfigyaml)
-	- [userData.yaml](#userdatayaml)
+	- [input.json](#inputjson)
+		- [Input Field Descriptions](#input-field-descriptions)
+	- [Network Config](#network-config)
 	- [Virtual Disk](#virtual-disk)
 	- [Boot Action](#boot-action)
 	- [Plugins](#plugins)
@@ -260,88 +256,165 @@ Example
 
 `plugins.UpdateFirmware` is set to `metamorph-redfish-plugin` which is the executable implementing the said API.
 
-## userDataSecret.yaml
+## input.json
 
-`location` : `type/vvig/userDataSecret.yaml`
+	{
+	    "AllowFirwareUpgrade": true,
+	    "BootActions": [
+	        {
+	            "control": "bash",
+	            "location": "https://raw.githubusercontent.com/ruanyf/simple-bash-scripts/master/scripts/hello-world.sh",
+	            "name": "Hello World",
+	            "priority": 1
+	        },
+	        {
+	            "control": "bash",
+	            "location": "https://raw.githubusercontent.com/qjcg/shell-examples/master/00-fundamentals/if",
+	            "name": "Fibonacci",
+	            "priority": 5
+	        },
+	        {
+	            "control": "bash",
+	            "location": "https://raw.githubusercontent.com/ruanyf/simple-bash-scripts/master/scripts/list-dir.sh",
+	            "name": "List Dir",
+	            "priority": 1
+	        },
+	        {
+	            "args": "apply -f",
+	            "control": "kubectl",
+	            "location": "https://raw.githubusercontent.com/kubernetes/website/master/content/en/examples/application/deployment.yaml",
+	            "name": "Deploy Nginx",
+	            "priority": 5
+	        }
+	    ],
+	    "Domain": "xyz.cci.xyz.com",
+	    "Firmwares": [
+	        {
+	            "name": "bios",
+	            "url": "http://a.b.c.d:31180/BIOS_R6HXJ_WN64_2.6.4.EXE",
+	            "version": "2.3.4"
+	        },
+	        {
+	            "name": "raid",
+	            "url": "http://a.b.c.d:31180/BIOS_R6HXJ_WN64_2.6.4.EXE",
+	            "version": "2.3.4"
+	        }
+	    ],
+	    "IPMIIP": "12.168.22.13",
+	    "IPMIPassword": "1234",
+	    "IPMIUser": "admin",
+	    "ISOChecksum": "http://a.b.c.d:31180/ubuntu-18.04.4-server-amd64.iso.md5sum",
+	    "ISOURL": "http://a.b.c.d:31180/ubuntu-18.04.4-server-amd64.iso",
+	    "Model": "Gen9",
+	    "NetworkConfig": "bmV0d29yOiAyCiAgcmVuZGVyZXI6IG5ldHdvcmtkIAogIGV0aGVybmV0czoKICAgIGVubzQ6CiAgICAgIGRoY3A0OiB0cnVlCiAgICAgIG1hdGNoOgogICAgICAgIG5hbWU6ICJlbjA0IgogICAgZW5wMTM1czBmMDoKICAgICAgbXR1OiA5MjE0CiAgICAgIG1hdGNoOgogICAgICAgIG5hbWU6IGVucDEzNXMwZjAiCiAgICBlbnA5NHMwZjE6CiAgICAgIG10dTogOTIxNAogICAgICBtYXRjaDoKICAgICAgICBuYW1lOiBlbnA5NHMwZjEKICBib25kczoKICAgIGJvbmQwOgogICAgICBtdHU6IDkyMTQKICAgICAgaW50ZXJmYWNlczogCiAgICAgIC0gZW5wMTM1czBmMAogICAgICAtIGVucDk0czBmMQogICAgICBwYXJhbWV0ZXJzOiAKICAgICAgICBkb3duLWRlbGF5OiAzMDAwCiAgICAgICAgbGFjcC1yYXRlOiBmYXN0CiAgICAgICAgbWlpLW1vbml0b3ItaW50ZXJ2YWw6IDEwMAogICAgICAgIG1vZGU6IDgwMi4zYWQKICAgICAgICB1cC1kZWxheTogMTAwMAogIHZsYW5zOgogICAgb2FtOgogICAgICBpZDogNDEKICAgICAgbGluazogYm9uZDAKICAgICAgZGhjcDQ6IG5vCiAgICAgIG10dTogOTIxNAogICAgICBhZGRyZXNzZXM6IFszMi42OC4yMjAuMTQvMjYsIF0KICAgICAgZ2F0ZXdheTQ6IDMyLjY4LjIyMC4xCiAgICAgIG5hbWVzZXJ2ZXJzOgogICAgICAgIGFkZHJlc3NlczogWzE1MC4yMzQuMjEwLjUsIDE1MC4yMzQuMjEwLjIwNSwgMTM1LjE4OC4zNC4xMjQsIF0K",
+	    "OsDisk": "/dev/sda",
+	    "Partitions": [
+	        {
+	            "filesystem": {
+	                "fstype": "ext4",
+	                "mount-options": "defaults",
+	                "mountpoint": "/"
+	            },
+	            "partitionName": "root",
+	            "size": "30g"
+	        },
+	        {
+	            "bootable": true,
+	            "filesystem": {
+	                "fstype": "ext4",
+	                "mount-options": "defaults",
+	                "mountpoint": "/boot"
+	            },
+	            "name": "boot",
+	            "primary": true,
+	            "size": "1g"
+	        },
+	        {
+	            "filesystem": {
+	                "fstype": "ext4",
+	                "mount-options": "defaults",
+	                "mountpoint": "/var/log"
+	            },
+	            "name": "var-log",
+	            "size": "100g"
+	        },
+	        {
+	            "filesystem": {
+	                "fstype": "ext4",
+	                "mount-options": "defaults",
+	                "mountpoint": "/var"
+	            },
+	            "name": "var",
+	            "size": ">300g"
+	        }
+	    ],
+	    "Plugins": {
+	        "APIs": [
+	            {
+	                "Name": "DeployISO",
+	                "Plugin": "metamorph-redfish-plugin"
+	            },
+	            {
+	                "Name": "CreateISO",
+	                "Plugin": "metamorph-isogen-plugin"
+	            }
+	        ]
+	    },
+	    "RAID_reset": false,
+	    "SSHPubKeys": [
+	        {
+	            "SSHPubKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCurXRaUe/ukR84FRseqnrNdDLg6zS4qtJi8e8o4VCNxbV0Jsu5iw17ZBF1B1uF8+Bdhz9eiYIkokxaiVkHHqOpRzF5v4phRK+k4MugjT3OAR78cEdg8MR2om5IIMbYYhVyjY1IyZOZv9PQ1noqzyR2Glo6q7AHPadVY2emk16VmmcVJc/z+6awZXitwdamFDRZ9HK+xoRCd6WDIIphJbI6nnFw2ytokgfpqptkwNGQ/2q8/skvRBaB78byIMU70O1q0fQEbm9VhbjmIE/qwNYEsVMAdHE6EYYyW1YnC3VqhBGlBqF/KPxTX/uQksOmvXoydbnvtaTRG0qq/AAvdJw5 root@r07c001"
+	        },
+	        {
+	            "SSHPubKey": "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDtIbTb2c33GhoprVOdZB5EvuCs7JOo5dgq8z3aOpJO/7efCF3Wft/Q0ve8ndRNVNt30KxpK7ro5ad31yloVQqj/MhYvI/fPMsyocCyPo+fJOf/8+u2TEMJUaDjwTRCnsPSu8fendpNt9HdreZcUT5R/foN3dpPfUiAPREgpvMqVfE7rtSyGs8ZRRTVYIohBwOVemCrdIGjjIzbGVLQfRWHkuJpl6Js2kHlO6trsE7aEiEqkaGEaJGCyGOlSS119lBsvsiEc4ExNczKAduMYY86xSxGo7zpf2R6mQTOmCHVSSwSfy0UHIgDVFPIVgyZSI27F2NLYnJeAmRqN9PNitPp a96e@xyz.com"
+	        }
+	    ],
+	    "grubConfig": "image=bionic isolcpus=0-3,44-47 amd_iommu=on kernel_package=linux-image-5.0.0-23-generic kernel=hwe-18.04 hugepagesz=1G hugepages=160 intel_iommu=on console=ttyS1,115200n8 transparent_hugepage=never",
+	    "kvmPolicy": {
+	        "cpuAllocation": "1:1",
+	        "cpuHyperthreading": "enabled",
+	        "cpuPinning": "enabled"
+	    },
+	    "name": "mtn52r07c001",
+	    "vendor": "Dell",
+	    "virtualDisks": [
+	        {
+	            "DiskName": "osdisk",
+	            "PhysicalDisks": [
+	                {
+	                    "PhysicalDisk": "Disk.Bay.0:Enclosure.Internal.0-1:RAID.Slot.6-1",
+	                    "VirtualDiskID": 1
+	                },
+	                {
+	                    "PhysicalDisk": "Disk.Bay.1:Enclosure.Internal.0-1:RAID.Slot.6-1",
+	                    "VirtualDiskID": 1
+	                }
+	            ],
+	            "RaidController": "RAID.Slot.6-1",
+	            "raidType": 1
+	        },
+	        {
+	            "PhysicalDisks": [
+	                {
+	                    "PhysicalDisk": "Disk.Bay.4:Enclosure.Internal.0-1:RAID.Slot.6-1",
+	                    "VirtualDiskID": 2
+	                },
+	                {
+	                    "PhysicalDisk": "Disk.Bay.5:Enclosure.Internal.0-1:RAID.Slot.6-1",
+	                    "VirtualDiskID": 2
+	                }
+	            ],
+	            "RaidController": "RAID.Slot.6-1",
+	            "name": "ephemeral",
+	            "raidType": 1
+	        }
+	    ]
+	
 
-Most the configs like the Network,Storage are passed via the `userDataSecret`.  
-The common configs for all the nodes are kept at `types/<site_type>/userDataSecret.yaml`
 
+### Input Field Descriptions
 
-
-	RAID_reset: false
-	OsDisk: /dev/sda
-	vendor: Dell
-	Model: Gen9
-	biosVersion: 2.0.0
-	CPLDFirmwareVersion: 3.43.4
-	RAIDFirmwareVersion: 4.5.6
-	FirmwareVersion: 32.32.32
-	grubConfig: "image=bionic isolcpus=0-3,44-47 amd_iommu=on kernel_package=linux-image-5.0.0-23-generic kernel=hwe-18.04 hugepagesz=1G hugepages=160 intel_iommu=on console=ttyS1,115200n8 transparent_hugepage=never"
-	Partitions:
-	  - partitionName: root
-	    size: 30g
-	    filesystem:
-	      mountpoint: /
-	      fstype: ext4
-	      mount-options: defaults
-	  - name: boot
-	    size: 1g
-	    bootable: true
-	    primary: true
-	    filesystem:
-	      mountpoint: /boot
-	      fstype: ext4
-	      mount-options: defaults
-	  - name: var-log
-	    size: 100g
-	    filesystem:
-	      mountpoint: /var/log
-	      fstype: ext4
-	      mount-options: defaults
-	  - name: var
-	    size: '>300g'
-	    filesystem:
-	      mountpoint: /var
-	      fstype: ext4
-	      mount-options: defaults
-	virtualDisks:
-	  - DiskName: osdisk
-	    raidType: 1
-	    RaidController: RAID.Slot.6-1
-	    PhysicalDisks:
-	      - VirtualDiskID: 1
-	        PhysicalDisk: 'Disk.Bay.0:Enclosure.Internal.0-1:RAID.Slot.6-1'
-	      - VirtualDiskID: 1
-	        PhysicalDisk: 'Disk.Bay.1:Enclosure.Internal.0-1:RAID.Slot.6-1'
-	  - DiskName: ephemeral
-	    raidType: 1
-	    RaidController: RAID.Slot.6-1
-	    PhysicalDisks:
-	      - VirtualDiskID: 2
-	        PhysicalDisk: 'Disk.Bay.4:Enclosure.Internal.0-1:RAID.Slot.6-1'
-	      - VirtualDiskID: 2
-	        PhysicalDisk: 'Disk.Bay.5:Enclosure.Internal.0-1:RAID.Slot.6-1'
-	BootActions:
-	- location: http://32.xxx.xx.12:31180/deploy_airskiff.sh
-	  control: bash
-	  name: Deploy Airskiff
-	  priority: 1
-	- location: http://32.xxx.xx.12:31180/deploy_sec_tools.sh
-	  control: bash
-	  name: Deploy Sec tools
-	  priority: 10
-    Plugins: 
-          APIs: 
-             - Name: "DeployISO"
-               Plugin: "metamorph-redfish-plugin" 
-			 - Name: "CreateISO"
-               Plugin: "metamorph-isogen-plugin" 
-
-### Manifest Field Descriptions
-
-
-* `RAID_reset` *bool*  *\*required*
+`RAID_reset`
 
 If sets to true, MetaMorph will erase all existing RAID configurations and re-create the RAID based on the `virtualDisks` config.  
 *Note*: Setting this to true will erase all the data on all disks on the node
@@ -398,13 +471,7 @@ See the above example for more details.
 BootActions are the scripts that will be executed on the first boot after the OS installation.
 Same Priority tasks will be executed in parelell. See the above example for more details.
 
-
-
-
-
-## network_config.yaml
-`location` : `sites/vvig/node1/network_config.yaml`
-
+## Network Config
 
 		network:
 		  version: 2
@@ -448,95 +515,6 @@ Same Priority tasks will be executed in parelell. See the above example for more
 
 Network config file is a plain netplan file that is responsible for configuring the network in the target node.   
 See [https://netplan.io](https://netplan.io) for more details
-
-
-## kustomization.yaml
-`location` : `sites/vvig/node1/kustomization.yaml`
-
-
-		kind: Kustomization
-		namespace: metal3
-
-
-		generatorOptions:
-		  disableNameSuffixHash: true
-
-		resources:
-		- bmh.yaml
-
-		secretGenerator:
-		- name: node1-secret
-		  literals:
-		  - username=<username>
-		  - password=<password>
-
-		generators:
-		- userDataConfig.yaml
-
-
-
-
-kustomization.yaml is the main file that puts all other files togehter. When executed with `kustomize build --enable_alpha_plugins .` kustomize will parse the `kustomization.yaml` and build the kubernetes manifests required to deploy the target node.
-
-## bmh.yaml
-`location` : `sites/vvig/node1/bmh.yaml`
-
-
-
-		apiVersion: metal3.io/v1alpha1
-		kind: BareMetalHost
-		metadata:
-		  labels:
-		    metalkubedemo:
-		  name: node1
-		  namespace: metal3
-		spec:
-		  bmc:
-		    address: redfish://<xx.xx.xx.xx>/redfish/v1
-		    credentialsName: node1-secret
-		  image:
-		    checksum: http://<xx.xx.xx.xx:port>/ubuntu-18.04.4-server-amd64.iso.md5sum
-		    url: http://<xx.xx.xx.xx:port>/ubuntu-18.04.4-server-amd64.iso
-		  online: true
-		  userData:
-		    name: node1-user-data
-		    namespace: metal3
-
-
-This file holds the config of the baremetal nodes , like the IPMI ip, username , password and the iso images etc
-
-
-## userDataConfig.yaml
-`location` : `sites/vvig/node1/userDataConfig.yaml`
-
-
-		apiVersion: metamorph.io/v1
-		kind: UserData
-		metadata:
-		  name: node1-user-data
-		namespace: metal3
-		network_config:  network_config.yaml
-		resources:
-		- ../../../types/vvig/userDataSecret.yaml
-		- userData.yaml
-
-
-
-Most of the case, you don't have to change this file. This file tells metamorph to take all the files in `userData.yaml` file and merge it together while creating the kuberentes manifests
-
-
-## userData.yaml
-`location` : `sites/vvig/node1/userData.yaml`
-
-		---
-		RAID_reset: false
-		vendor: Dell
-
-
-
-Most of the case, you don't have to change this file. this file tell the metamorph to override the values in the `types/<site_type>/userDataSecret.yaml`
-
-
 
 
 ## Virtual Disk 
